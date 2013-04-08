@@ -36,6 +36,8 @@ VARIABLERMBINARY = /bin/rm
 VARIABLETESTDIR = t
 VARIABLEDIFF = /usr/bin/diff
 
+
+# TODO i18n these strings
 VARIABLETESTSUCCESS = "Test Success"
 VARIABLETESTFAILURE = "Test Failure"
 
