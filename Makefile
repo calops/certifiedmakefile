@@ -28,12 +28,16 @@ VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME = $(subst $(VARIABLECON
 
 # It is absolutely crucial to abstract these away in case we want to thange
 # them later !
+
 VARIABLEPYTHONINTERPRETER = /usr/bin/python
 VARIABLESED = /bin/sed
 VARIABLEMARKDOWNMODULE = markdown
 VARIABLERMBINARY = /bin/rm
 VARIABLETESTDIR = t
 VARIABLEDIFF = /usr/bin/diff
+
+VARIABLETESTSUCCESS = "Test Success"
+VARIABLETESTFAILURE = "Test Failure"
 
 # This is the default rule that tepens only on the target file.
 all: $(VARIABLECONTAININGTHETARGETNAME)
@@ -58,7 +62,7 @@ $(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFRO
 # This rule implements a basic unit test
 test:
 	cd $(VARIABLETESTDIR); $(MAKE)
-	$(VARIABLEDIFF) $(VARIABLETESTDIR)/index.html $(VARIABLETESTDIR)/index.html.ref && echo "Test OK" || echo "Test Failed"
+	$(VARIABLEDIFF) $(VARIABLETESTDIR)/index.html $(VARIABLETESTDIR)/index.html.ref && echo $(VARIABLETESTSUCCESS) || echo $(VARIABLETESTFAILURE)
 
 # This rule helps clean the project by removing every generated file.
 clean:
