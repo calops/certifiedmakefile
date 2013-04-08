@@ -32,6 +32,8 @@ VARIABLEPYTHONINTERPRETER = /usr/bin/python
 VARIABLESED = /bin/sed
 VARIABLEMARKDOWNMODULE = markdown
 VARIABLERMBINARY = /bin/rm
+VARIABLETESTDIR = t
+VARIABLEDIFF = /usr/bin/diff
 
 # This is the default rule that tepens only on the target file.
 all: $(VARIABLECONTAININGTHETARGETNAME)
@@ -51,6 +53,12 @@ $(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFRO
 	# due to markdown syntax but actually we just wanted a <pre> mark. But
 	# yeah, that doesn't do exactly what we want so we sed the shit out of it.
 	$(VARIABLESED) -i 's/<pre>/<pre style="white-space: pre-wrap;">/' $@
+
+
+# This rule implements a basic unit test
+test:
+	cd $(VARIABLETESTDIR); $(MAKE)
+	$(VARIABLEDIFF) $(VARIABLETESTDIR)/index.html $(VARIABLETESTDIR)/index.html.ref && echo "Test OK" || echo "Test Failed"
 
 # This rule helps clean the project by removing every generated file.
 clean:
