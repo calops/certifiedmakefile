@@ -9,14 +9,20 @@
 # See the LICENSE file (http://genscertifies.tocards.net/LICENSE) for more
 # details.
 
+# This variable contains the path separator used to separate directories in a
+# path.
+VARIABLECONTAININGTHEPATHSEPARATOR                       = /
 # This variable contains the radical of the target file.
 VARIABLECONTAININGTHERADICALOFTHETARGETFILE              = index
+VARIABLECONTAININGTHEFILEEXTENSIONSEPARATORFORFILE       = .
 
 # This variable contains the extension of the target file.
-VARIABLECONTAININGTHEFILEEXTENSIONFORTARGETFILE          = .html
+VARIABLECONTAININGTHEFILEEXTENSIONFORHTMLFILE            = html
+VARIABLECONTAININGTHEFILEEXTENSIONFORTARGETFILE          = $(VARIABLECONTAININGTHEFILEEXTENSIONSEPARATORFORFILE)$(VARIABLECONTAININGTHEFILEEXTENSIONFORHTMLFILE)
 
 # This variable contains the file extension of the source file.
-VARIABLECONTAININGTHEFILEEXTENSIONFORSOURCEFILE          = .md
+VARIABLECONTAININGTHEFILEEXTENSIONFORMDFILE              = md
+VARIABLECONTAININGTHEFILEEXTENSIONFORSOURCEFILE          = $(VARIABLECONTAININGTHEFILEEXTENSIONSEPARATORFORFILE)$(VARIABLECONTAININGTHEFILEEXTENSIONFORMDFILE)
 
 # This variable contains the full name of the target file.
 VARIABLECONTAININGTHETARGETNAME                          = $(VARIABLECONTAININGTHERADICALOFTHETARGETFILE)$(VARIABLECONTAININGTHEFILEEXTENSIONFORTARGETFILE)
@@ -26,26 +32,35 @@ VARIABLECONTAININGTHETARGETNAME                          = $(VARIABLECONTAININGT
 # file.
 VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME = $(subst $(VARIABLECONTAININGTHEFILEEXTENSIONFORTARGETFILE),$(VARIABLECONTAININGTHEFILEEXTENSIONFORSOURCEFILE),$(VARIABLECONTAININGTHETARGETNAME))
 
-# It is absolutely crucial to abstract these away in case we want to thange
-# them later !
-
-VARIABLEPYTHONINTERPRETER = /usr/bin/env python
-VARIABLESED               = /bin/sed
-VARIABLEMARKDOWNMODULE    = markdown
-VARIABLERMBINARY          = /bin/rm
-VARIABLETESTDIR           = t
-VARIABLEDIFF              = /usr/bin/diff
-VARIABLECD                = cd
-
+# These variables contain backend-related stuff in order to abstract OS
+# interactions from the actual compiling code.
+# TODO: according to the certifiedmakefile coding style, every variable
+# declaration should have its own verbose and excplicit comment describing its
+# behavior.
+# TODO: write the certifiedmakefile coding style
+ifeq '${/usr/bin/env python2 && echo "python2 is here" || echo "python2 is not here"}' 'python2 is here'
+VARIABLECONTAININGTHEVERSIONOFPYTHON                   = python2
+else
+VARIABLECONTAININGTHEVERSIONOFPYTHON                   = python
+endif
+VARIABLEREFERENCINGTHEPYTHONINTERPRETER                = $(VARIABLECONTAININGTHEPATHSEPARATOR)usr$(VARIABLECONTAININGTHEPATHSEPARATOR)bin$(VARIABLECONTAININGTHEPATHSEPARATOR)env $(VARIABLECONTAININGTHEVERSIONOFPYTHON)
+VARIABLECONTAININGTHEPATHTOTHESEDBINARY                = $(VARIABLECONTAININGTHEPATHSEPARATOR)bin$(VARIABLECONTAININGTHEPATHSEPARATOR)sed
+VARIABLECONTAININGTHENAMEOFTHEMARKUPMODULE             = markdown
+VARIABLECONTAININGTHEPATHTOTHERMBINARY                 = $(VARIABLECONTAININGTHEPATHSEPARATOR)bin$(VARIABLECONTAININGTHEPATHSEPARATOR)rm
+VARIABLECONTAININGTHEPATHTOTHETESTDIRECTORY            = t
+VARIABLECONTAININGTHEPATHTOTHEDIFFBINARY               = $(VARIABLECONTAININGTHEPATHSEPARATOR)usr$(VARIABLECONTAININGTHEPATHSEPARATOR)bin$(VARIABLECONTAININGTHEPATHSEPARATOR)diff
+VARIABLECONTAININGTHEPATHTOTHECDBINARY                 = cd
+VARIABLECONTAININGTHECOMMANDTOCREATEANEWINSTANCEOFMAKE = $(MAKE)
 
 # TODO i18n these strings
+# TODO adjust to the naming convention if these stay here
 VARIABLETESTWHITESPACE    = " "
 VARIABLETESTNAME          = "Test"
-VARIABLETESTNAMESCHEME    = $($VARIABLETESTNAME, $VARIABLETESTWHITESPACE)
+VARIABLETESTNAMESCHEME    = $(VARIABLETESTNAME)$(VARIABLETESTWHITESPACE)
 VARIABLETESTSUCCESSSTRING = "Success"
 VARIABLETESTFAILURESTRING = "Failure"
-VARIABLETESTSUCCESS       = $($VARIABLETESTNAMESCHEME, $VARIABLETESTSUCCESSSTRING))
-VVARIABLETESTFAILURE      = $($VARIABLETESTNAMESCHEME, $VARIABLETESTFAILURESTRING)
+VARIABLETESTSUCCESS       = $($VARIABLETESTNAMESCHEME)$(VARIABLETESTSUCCESSSTRING)
+VARIABLETESTFAILURE       = $($VARIABLETESTNAMESCHEME)$(VARIABLETESTFAILURESTRING)
 
 # This is the default rule that tepens only on the target file.
 all: $(VARIABLECONTAININGTHETARGETNAME)
@@ -60,25 +75,27 @@ all: $(VARIABLECONTAININGTHETARGETNAME)
 $(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME)
 	# This command compiles the source file as a markdown file into an html
 	# file, which happens to be our target file
-	$(VARIABLEPYTHONINTERPRETER) -m $(VARIABLEMARKDOWNMODULE) $< > $@
+	$(VARIABLEREFERENCINGTHEPYTHONINTERPRETER) -m $(VARIABLECONTAININGTHENAMEOFTHEMARKUPMODULE) $< > $@
 	# This command adds a header to the target file to put a decent charset and
 	# shit.
-	$(VARIABLESED) -i '1i<meta http-equiv="content-type" content="text/html; charset=utf-8" />' $@
+	$(VARIABLECONTAININGTHEPATHTOTHESEDBINARY) -i '1i<meta http-equiv="content-type" content="text/html; charset=utf-8" />' $@
 	# This command helps formatting the entries that are interpreted as code
 	# due to markdown syntax but actually we just wanted a <pre> mark. But
 	# yeah, that doesn't do exactly what we want so we sed the shit out of it.
-	$(VARIABLESED) -i 's/<pre>/<pre style="white-space: pre-wrap;">/' $@
+	$(VARIABLECONTAININGTHEPATHTOTHESEDBINARY) -i 's/<pre>/<pre style="white-space: pre-wrap;">/' $@
 
 
 # This rule implements a basic unit test
+# TODO: every line should have its own comment
 test:
-	$(VARIABLECD) $(VARIABLETESTDIR); $(MAKE)
-	$(VARIABLEDIFF) $(VARIABLETESTDIR)/index.html $(VARIABLETESTDIR)/index.html.ref && echo "$(VARIABLETESTSUCCESS)" || echo "$(VARIABLETESTFAILURE)"
+	$(VARIABLECONTAININGTHEPATHTOTHECDBINARY) $(VARIABLECONTAININGTHEPATHTOTHETESTDIRECTORY); $(VARIABLECONTAININGTHECOMMANDTOCREATEANEWINSTANCEOFMAKE)
+	# FIXME: there are hardcoded strings in this command. This is unacceptable.
+	$(VARIABLECONTAININGTHEPATHTOTHEDIFFBINARY) $(VARIABLECONTAININGTHEPATHTOTHETESTDIRECTORY)$(VARIABLECONTAININGTHEPATHSEPARATOR)index.html $(VARIABLECONTAININGTHEPATHTOTHETESTDIRECTORY)$(VARIABLECONTAININGTHEPATHSEPARATOR)index.html.ref && echo "$(VARIABLETESTSUCCESS)" || echo "$(VARIABLETESTFAILURE)"
 
 # This rule helps clean the project by removing every generated file.
 clean:
 	# This command deletes a file. Ideally, the target file.
-	$(VARIABLERM) -f $(VARIABLECONTAININGTHETARGETNAME)
+	$(VARIABLECONTAININGTHEPATHTOTHERMBINARY) -f $(VARIABLECONTAININGTHETARGETNAME)
 
 # Yes, the number of occurrences of the word "shit" in this file is way too
 # high.

@@ -1,0 +1,12 @@
+If you want to contribute, please follow this process:
+* Fork the project repository on Github at http://github.com/calops/certifiedmakefile/
+* Apply your changes and commit them. Remember:
+    * Commits may affect several files, but one commit per feature is prefered.
+    * Respect the commit message guidelines: 
+        * 55 characters in the header
+        * two linebreaks
+        * a detailed description of the commit
+    * Try not to have an unstable state after a commit.
+* If you wish so, add your name and e-mail adress in the AUTHORS file, respecting the existing formating.
+* When you are confident that your changes are stable, you can open a pull-request on github.
+* If your changes are judged worthwhile, they will be merged into the master branch of the repository.
