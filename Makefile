@@ -30,11 +30,11 @@ VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME = $(subst $(VARIABLECON
 # them later !
 
 VARIABLEPYTHONINTERPRETER = /usr/bin/python
-VARIABLESED = /bin/sed
-VARIABLEMARKDOWNMODULE = markdown
-VARIABLERMBINARY = /bin/rm
-VARIABLETESTDIR = t
-VARIABLEDIFF = /usr/bin/diff
+VARIABLESED               = /bin/sed
+VARIABLEMARKDOWNMODULE    = markdown
+VARIABLERMBINARY          = /bin/rm
+VARIABLETESTDIR           = t
+VARIABLEDIFF              = /usr/bin/diff
 
 
 # TODO i18n these strings
