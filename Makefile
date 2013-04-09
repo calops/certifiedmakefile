@@ -29,7 +29,7 @@ VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME = $(subst $(VARIABLECON
 # It is absolutely crucial to abstract these away in case we want to thange
 # them later !
 
-VARIABLEPYTHONINTERPRETER = /usr/bin/env python
+VARIABLEPYTHONINTERPRETER = /usr/bin/env python2
 VARIABLESED               = /bin/sed
 VARIABLEMARKDOWNMODULE    = markdown
 VARIABLERMBINARY          = /bin/rm
@@ -44,7 +44,7 @@ VARIABLETESTNAME          = "Test"
 VARIABLETESTNAMESCHEME    = $($VARIABLETESTNAME, $VARIABLETESTWHITESPACE)
 VARIABLETESTSUCCESSSTRING = "Success"
 VARIABLETESTFAILURESTRING = "Failure"
-VARIABLETESTSUCCESS       = $($VARIABLETESTNAMESCHEME, $VARIABLETESTSUCCESSSTRING))
+VARIABLETESTSUCCESS       = $($VARIABLETESTNAMESCHEME, $VARIABLETESTSUCCESSSTRING)
 VVARIABLETESTFAILURE      = $($VARIABLETESTNAMESCHEME, $VARIABLETESTFAILURESTRING)
 
 # This is the default rule that tepens only on the target file.
@@ -75,7 +75,7 @@ test:
 # This rule helps clean the project by removing every generated file.
 clean:
 	# This command deletes a file. Ideally, the target file.
-	$(VARIABLERM) -f $(VARIABLECONTAININGTHETARGETNAME)
+	$(VARIABLERMBINARY) -f $(VARIABLECONTAININGTHETARGETNAME)
 
 # Yes, the number of occurrences of the word "shit" in this file is way too
 # high.
