@@ -29,7 +29,7 @@ VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME = $(subst $(VARIABLECON
 # It is absolutely crucial to abstract these away in case we want to thange
 # them later !
 
-VARIABLEPYTHONINTERPRETER = /usr/bin/python
+VARIABLEPYTHONINTERPRETER = /usr/bin/env python
 VARIABLESED               = /bin/sed
 VARIABLEMARKDOWNMODULE    = markdown
 VARIABLERMBINARY          = /bin/rm
