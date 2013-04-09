@@ -44,6 +44,9 @@ VARIABLETESTFAILURE = "Test Failure"
 # This is the default rule that tepens only on the target file.
 all: $(VARIABLECONTAININGTHETARGETNAME)
 
+# This is required in case we ever want to have a file called "clean" or "test"
+.PHONY: clean test
+
 # This is the rule that does all the work. It compiles the source file into the
 # target file, and then modifies the target file to be exactly like we wanted
 # it to be in the first place and are too lazy to configure the markdown module
