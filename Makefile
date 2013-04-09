@@ -73,7 +73,7 @@ $(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFRO
 # This rule implements a basic unit test
 test:
 	$(VARIABLECD) $(VARIABLETESTDIR); $(MAKE)
-	$(VARIABLEDIFF) $(VARIABLETESTDIR)/index.html $(VARIABLETESTDIR)/index.html.ref && echo $(VARIABLETESTSUCCESS) || echo $(VARIABLETESTFAILURE)
+	$(VARIABLEDIFF) $(VARIABLETESTDIR)/index.html $(VARIABLETESTDIR)/index.html.ref && echo "$(VARIABLETESTSUCCESS)" || echo "$(VARIABLETESTFAILURE)"
 
 # This rule helps clean the project by removing every generated file.
 clean:
