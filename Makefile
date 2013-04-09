@@ -38,6 +38,10 @@ VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME = $(subst $(VARIABLECON
 # declaration should have its own verbose and excplicit comment describing its
 # behavior.
 # TODO: write the certifiedmakefile coding style
+VARIABLEFORTHENAMEOFTHEUSRDIRECTORY = usr
+VARIABLEFORTHENAMEOFTHEBINDIRECTORY = bin
+VARIABLECONTAININGTHEENVBINARY = $(VARIABLECONTAININGTHEPATHSEPARATOR)usr$(VARIABLECONTAININGTHEPATHSEPARATOR)bin$(VARIABLECONTAININGTHEPATHSEPARATOR)env
+
 ifeq '${/usr/bin/env python2 && echo "python2 is here" || echo "python2 is not here"}' 'python2 is here'
 VARIABLECONTAININGTHEVERSIONOFPYTHON                   = python2
 else
