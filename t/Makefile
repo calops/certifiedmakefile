@@ -1,2 +1,2 @@
-# include the makefile from the parent directory
+# Include the Makefile from the parent directory
 include ../Makefile
