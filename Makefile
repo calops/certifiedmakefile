@@ -63,18 +63,19 @@ VARIABLECONTAININGTHETESTSUCCESSSTRING      = "Success"
 VARIABLECONTAININGTHETESTFAILURESTRING      = "Failure"
 VARIABLECONTAININGTHEFULLTESTSUCCESSMESSAGE = $($VARIABLECONTAININGTHETESTNAMESCHEME)$(VARIABLECONTAININGTHETESTSUCCESSSTRING)
 VARIABLECONTAININGTHEFULLTESTFAILUREMESSAGE = $($VARIABLECONTAININGTHETESTNAMESCHEME)$(VARIABLECONTAININGTHETESTFAILURESTRING)
+VARIABLECONTAININGAREDIRECTTODEVNULL        = >/dev/null 2>&1
 
 # This is the default rule that tepens only on the target file.
 all: $(VARIABLECONTAININGTHETARGETNAME)
 
 # This is required in case we ever want to have a file called "clean" or "test"
-.PHONY: clean test
+.PHONY: clean test ensure_python
 
 # This is the rule that does all the work. It compiles the source file into the
 # target file, and then modifies the target file to be exactly like we wanted
 # it to be in the first place and are too lazy to configure the markdown module
 # before calling it.
-$(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME)
+$(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFROMTHETARGETNAME) ensure_python
 	# This command compiles the source file as a markdown file into an html
 	# file, which happens to be our target file
 	$(VARIABLEREFERENCINGTHEPYTHONINTERPRETER) -m $(VARIABLECONTAININGTHENAMEOFTHEMARKUPMODULE) $< > $@
@@ -86,6 +87,8 @@ $(VARIABLECONTAININGTHETARGETNAME): $(VARIABLECONTAININGTHESOURCEFILECOMPUTEDFRO
 	# yeah, that doesn't do exactly what we want so we sed the shit out of it.
 	$(VARIABLECONTAININGTHEPATHTOTHESEDBINARY) -i 's/<pre>/<pre style="white-space: pre-wrap;">/' $@
 
+ensure_python:
+	$(VARIABLEREFERENCINGTHEPYTHONINTERPRETER) -c "import $(VARIABLECONTAININGTHENAMEOFTHEMARKUPMODULE)" $(VARIABLECONTAININGAREDIRECTTODEVNULL) || ( $(VARIABLECONTAININGTHEECHOCOMMAND) "Sorry, you are missing the markdown module" && exit 4 ) 
 
 # This rule implements a basic unit test
 # TODO: every line should have its own comment
