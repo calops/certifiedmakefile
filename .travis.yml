@@ -1,1 +1,2 @@
+install: pip install markdown
 script: make test
