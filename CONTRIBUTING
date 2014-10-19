@@ -6,6 +6,7 @@ If you want to contribute, please follow this process:
         * 55 characters in the header
         * two linebreaks
         * a detailed description of the commit
+	* comments must have 80 '#' borders, if too long, 70.
     * Try not to have an unstable state after a commit.
 * If you wish so, add your name and e-mail adress in the AUTHORS file, respecting the existing formating.
 * When you are confident that your changes are stable, you can open a pull-request on github.
